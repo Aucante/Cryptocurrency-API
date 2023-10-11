@@ -10,7 +10,7 @@ services:
       - 'POSTGRES_PASSWORD=password'
   api:
     build:
-      dockerfile: Dockerfile
+      dockerfile: dev.dockerfile
       context: .
     ports:
       - '3000:3000'
