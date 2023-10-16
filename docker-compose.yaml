@@ -1,14 +1,19 @@
 version: '3'
 services:
-  pg:
-    image: postgres
-    ports:
-      - '5432:5432'
-    volumes:
-      - 'pg_data:/var/lib/postgresql/data'
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    container_name: mysql
+    env_file: ./.env
     environment:
-      - 'POSTGRES_PASSWORD=password'
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+    volumes:
+      - db:/var/lib/mysql
   api:
+    container_name: api
     build:
       dockerfile: dev.dockerfile
       context: .
@@ -18,4 +23,4 @@ services:
       - '.:/app'
 
 volumes:
-  pg_data:
+  db:
