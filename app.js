@@ -8,6 +8,9 @@ sequelize.init()
 
 require('./src/routes/Cryptocurrency')(app)
 
-app.get('/' , (req, res) => res.send('Express Ok '))
+app.use(({res}) => {
+    const message = "Failed for finding requested ressource. Try another URL."
+    res.status(404).json({message})
+})
 
 app.listen(port, () => console.log('Démarré'))

@@ -11,15 +11,8 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const Cryptocurrency = CryptocurrencyModel(sequelize, DataTypes);
 
 const init = () => {
-    return sequelize.sync({force: true})
+    return sequelize.sync({force: false})
         .then(_ => {
-            cryptocurrencies.map(cryptocurrency => {
-                Cryptocurrency.create({
-                    name: cryptocurrency.name,
-                    code: cryptocurrency.code,
-                    picture: cryptocurrency.picture
-                }).then(cryptocurrency => console.log(cryptocurrency.toJSON()))
-            })
             console.log('Database initialized.')
         })
 }

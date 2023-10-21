@@ -7,8 +7,7 @@ module.exports = (app) => {
             const message = 'Cryptocurrencies list is retrieved.';
             res.json({ message, data: cryptocurrencies });
         } catch (error) {
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: 'Internal server error.' });
         }
     });
 
@@ -19,11 +18,10 @@ module.exports = (app) => {
                 const message = 'Cryptocurrency found.';
                 res.json({ message, data: cryptocurrency });
             } else {
-                res.status(404).json({ error: 'Cryptocurrency not found' });
+                res.status(404).json({ error: 'Cryptocurrency not found. Try with another cryptocurrency.' });
             }
         } catch (error) {
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: 'Internal server error.' });
         }
     });
 
@@ -35,8 +33,7 @@ module.exports = (app) => {
             const message = 'Cryptocurrency created successfully.';
             res.json({ message, data: newCrypto });
         } catch (error) {
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: 'Internal server error.' });
         }
     });
 
@@ -52,11 +49,10 @@ module.exports = (app) => {
                 const message = 'Cryptocurrency updated successfully.';
                 res.json({ message, data: cryptocurrency });
             } else {
-                res.status(404).json({ error: 'Cryptocurrency not found' });
+                res.status(404).json({ error: 'Cryptocurrency not found. Try with another cryptocurrency.' });
             }
         } catch (error) {
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: 'Internal server error.' });
         }
     });
 
@@ -68,11 +64,10 @@ module.exports = (app) => {
                 const message = 'Cryptocurrency deleted successfully.';
                 res.json({ message });
             } else {
-                res.status(404).json({ error: 'Cryptocurrency not found' });
+                res.status(404).json({ error: 'Cryptocurrency not found. Try with another cryptocurrency.' });
             }
         } catch (error) {
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: 'Internal server error.' });
         }
     });
 };
