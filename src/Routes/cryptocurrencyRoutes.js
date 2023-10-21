@@ -1,9 +1,9 @@
-const { Cryptocurrency } = require('../db/sequelize')
+const { Cryptocurrency: CryptocurrencyRoutes } = require('../db/sequelize')
 
 module.exports = (app) => {
     app.get('/api/cryptocurrencies', async (req, res) => {
         try {
-            const cryptocurrencies = await Cryptocurrency.findAll();
+            const cryptocurrencies = await CryptocurrencyRoutes.findAll();
             const message = 'Cryptocurrencies list is retrieved.';
             res.json({ message, data: cryptocurrencies });
         } catch (error) {
@@ -13,7 +13,7 @@ module.exports = (app) => {
 
     app.get('/api/cryptocurrencies/:id', async (req, res) => {
         try {
-            const cryptocurrency = await Cryptocurrency.findByPk(req.params.id);
+            const cryptocurrency = await CryptocurrencyRoutes.findByPk(req.params.id);
             if (cryptocurrency) {
                 const message = 'Cryptocurrency found.';
                 res.json({ message, data: cryptocurrency });
@@ -29,7 +29,7 @@ module.exports = (app) => {
         console.log(req.query)
         try {
             const { name, code, picture } = req.query;
-            const newCrypto = await Cryptocurrency.create({ name, code, picture });
+            const newCrypto = await CryptocurrencyRoutes.create({ name, code, picture });
             const message = 'Cryptocurrency created successfully.';
             res.json({ message, data: newCrypto });
         } catch (error) {
@@ -40,7 +40,7 @@ module.exports = (app) => {
     app.put('/api/cryptocurrencies/:id', async (req, res) => {
         try {
             const { name, code, picture } = req.query;
-            const cryptocurrency = await Cryptocurrency.findByPk(req.params.id);
+            const cryptocurrency = await CryptocurrencyRoutes.findByPk(req.params.id);
             if (cryptocurrency) {
                 cryptocurrency.name = name ?? cryptocurrency.name;
                 cryptocurrency.code = code ?? cryptocurrency.code;
@@ -58,7 +58,7 @@ module.exports = (app) => {
 
     app.delete('/api/cryptocurrencies/:id', async (req, res) => {
         try {
-            const cryptocurrency = await Cryptocurrency.findByPk(req.params.id);
+            const cryptocurrency = await CryptocurrencyRoutes.findByPk(req.params.id);
             if (cryptocurrency) {
                 await cryptocurrency.destroy();
                 const message = 'Cryptocurrency deleted successfully.';
