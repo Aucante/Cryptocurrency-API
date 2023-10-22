@@ -1,4 +1,4 @@
-const validType = ['PoW', 'PoS', 'PoC', 'DPos', 'LPos', 'PoH', 'PoSe', 'PoA', 'PoHold', 'Pol', 'DAG']
+const validType = ['PoW', 'PoS', 'PoC', 'DPos', 'LPos', 'PoH', 'PoSe', 'PoA', 'PoHold', 'Pol', 'DAG'];
 
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Cryptocurrency', {
@@ -58,3 +58,5 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: false
     })
 }
+
+module.exports.validType = validType;

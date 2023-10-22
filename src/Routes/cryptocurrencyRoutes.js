@@ -1,25 +1,12 @@
-const { Cryptocurrency: CryptocurrencyRoutes } = require('../db/sequelize')
-const errorHandler = require('../Handler/errorHandler')
+const { Cryptocurrency: CryptocurrencyRoutes } = require('../db/sequelize');
+const errorHandler = require('../Handler/errorHandler');
+const { Op } = require('sequelize');
+const cryptocurrencyController = require('../controllers/cryptocurrencyControllers');
 
 module.exports = (app) => {
     app.get('/api/cryptocurrencies', async (req, res) => {
-        let cryptocurrencies;
         try {
-            const filter = {};
-            if (req.query.name) {
-                filter.name = req.query.name;
-            }
-
-            if (req.query.code) {
-                filter.code = req.query.code;
-            }
-
-            if (req.query.type) {
-                filter.type = req.query.type;
-            }
-            cryptocurrencies = await CryptocurrencyRoutes.findAll({
-                where: filter
-            });
+            let cryptocurrencies = await cryptocurrencyController.getCryptocurrencies(req.query);
             const message = 'Cryptocurrencies list is retrieved.';
             res.json({message, data: cryptocurrencies});
         } catch (error) {
