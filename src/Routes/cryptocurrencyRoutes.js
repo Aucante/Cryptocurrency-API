@@ -1,4 +1,5 @@
 const { Cryptocurrency: CryptocurrencyRoutes } = require('../db/sequelize')
+const errorHandler = require('../Handler/errorHandler')
 
 module.exports = (app) => {
     app.get('/api/cryptocurrencies', async (req, res) => {
@@ -7,7 +8,7 @@ module.exports = (app) => {
             const message = 'Cryptocurrencies list is retrieved.';
             res.json({ message, data: cryptocurrencies });
         } catch (error) {
-            res.status(500).json({ error: 'Internal server error.' });
+            errorHandler.handleCryptocurrencyInternalError(res, error);
         }
     });
 
@@ -21,7 +22,7 @@ module.exports = (app) => {
                 res.status(404).json({ error: 'Cryptocurrency not found. Try with another cryptocurrency.' });
             }
         } catch (error) {
-            res.status(500).json({ error: 'Internal server error.' });
+            errorHandler.handleCryptocurrencyInternalError(res, error);
         }
     });
 
@@ -33,15 +34,7 @@ module.exports = (app) => {
             const message = 'Cryptocurrency created successfully.';
             res.json({ message, data: newCrypto });
         } catch (error) {
-            if (error.name === 'SequelizeUniqueConstraintError') {
-                res.status(400).json({ error: 'Cryptocurrency with the same code or name already exists.' });
-            } else if (error.name === 'SequelizeValidationError') {
-                const validationErrors = error.errors.map(err => err.message);
-                res.status(400).json({ error: 'Validation failed.', validationErrors });
-            } else {
-                console.error('Error:', error.name);
-                res.status(500).json({ error: 'Internal server error.' });
-            }
+            errorHandler.handleCryptocurrencyInsertError(res, error);
         }
     });
 
@@ -60,7 +53,7 @@ module.exports = (app) => {
                 res.status(404).json({ error: 'Cryptocurrency not found. Try with another cryptocurrency.' });
             }
         } catch (error) {
-            res.status(500).json({ error: 'Internal server error.' });
+            errorHandler.handleCryptocurrencyInsertError(res, error);
         }
     });
 
@@ -75,7 +68,7 @@ module.exports = (app) => {
                 res.status(404).json({ error: 'Cryptocurrency not found. Try with another cryptocurrency.' });
             }
         } catch (error) {
-            res.status(500).json({ error: 'Internal server error.' });
+            errorHandler.handleCryptocurrencyInternalError(res, error);
         }
     });
 };
