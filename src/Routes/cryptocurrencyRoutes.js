@@ -3,10 +3,25 @@ const errorHandler = require('../Handler/errorHandler')
 
 module.exports = (app) => {
     app.get('/api/cryptocurrencies', async (req, res) => {
+        let cryptocurrencies;
         try {
-            const cryptocurrencies = await CryptocurrencyRoutes.findAll();
+            const filter = {};
+            if (req.query.name) {
+                filter.name = req.query.name;
+            }
+
+            if (req.query.code) {
+                filter.code = req.query.code;
+            }
+
+            if (req.query.type) {
+                filter.type = req.query.type;
+            }
+            cryptocurrencies = await CryptocurrencyRoutes.findAll({
+                where: filter
+            });
             const message = 'Cryptocurrencies list is retrieved.';
-            res.json({ message, data: cryptocurrencies });
+            res.json({message, data: cryptocurrencies});
         } catch (error) {
             errorHandler.handleCryptocurrencyInternalError(res, error);
         }
@@ -27,10 +42,9 @@ module.exports = (app) => {
     });
 
     app.post('/api/cryptocurrencies', async (req, res) => {
-        console.log(req.query)
         try {
-            const { name, code, picture } = req.query;
-            const newCrypto = await CryptocurrencyRoutes.create({ name, code, picture });
+            const { name, code, picture, type } = req.query;
+            const newCrypto = await CryptocurrencyRoutes.create({ name, code, picture, type });
             const message = 'Cryptocurrency created successfully.';
             res.json({ message, data: newCrypto });
         } catch (error) {
@@ -46,6 +60,7 @@ module.exports = (app) => {
                 cryptocurrency.name = name ?? cryptocurrency.name;
                 cryptocurrency.code = code ?? cryptocurrency.code;
                 cryptocurrency.picture = picture ?? cryptocurrency.picture;
+                cryptocurrency.type = type ?? cryptocurrency.type;
                 await cryptocurrency.save();
                 const message = 'Cryptocurrency updated successfully.';
                 res.json({ message, data: cryptocurrency });

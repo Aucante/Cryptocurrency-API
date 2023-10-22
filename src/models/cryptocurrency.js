@@ -1,3 +1,5 @@
+const validType = ['PoW', 'PoS', 'PoC', 'DPos', 'LPos', 'PoH', 'PoSe', 'PoA', 'PoHold', 'Pol', 'DAG']
+
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Cryptocurrency', {
         id: {
@@ -30,6 +32,20 @@ module.exports = (sequelize, DataTypes) => {
                 len: {
                     args: [3, 3],
                     msg: 'The code must be exactly 3 characters long.'
+                }
+            }
+        },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                isTypeValid(value) {
+                    if (!validType.includes(value)) {
+                        throw new Error('Type is not in collection. Please insert another type.')
+                    }
+                },
+                notNull: {
+                    msg: 'Type must exist.'
                 }
             }
         },
