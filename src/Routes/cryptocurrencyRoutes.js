@@ -2,9 +2,10 @@ const { Cryptocurrency: CryptocurrencyRoutes } = require('../db/sequelize');
 const errorHandler = require('../Handler/errorHandler');
 const { Op } = require('sequelize');
 const cryptocurrencyController = require('../controllers/cryptocurrencyControllers');
+const auth = require('../auth/auth');
 
 module.exports = (app) => {
-    app.get('/api/cryptocurrencies', async (req, res) => {
+    app.get('/api/cryptocurrencies', auth, async (req, res) => {
         try {
             let cryptocurrencies = await cryptocurrencyController.getCryptocurrencies(req.query);
             const message = 'Cryptocurrencies list is retrieved.';
@@ -14,7 +15,7 @@ module.exports = (app) => {
         }
     });
 
-    app.get('/api/cryptocurrencies/:id', async (req, res) => {
+    app.get('/api/cryptocurrencies/:id', auth, async (req, res) => {
         try {
             const cryptocurrency = await CryptocurrencyRoutes.findByPk(req.params.id);
             if (cryptocurrency) {
@@ -28,9 +29,10 @@ module.exports = (app) => {
         }
     });
 
-    app.post('/api/cryptocurrencies', async (req, res) => {
+    app.post('/api/cryptocurrencies', auth, async (req, res) => {
         try {
             const { name, code, picture, type } = req.query;
+            console.log(type)
             const newCrypto = await CryptocurrencyRoutes.create({ name, code, picture, type });
             const message = 'Cryptocurrency created successfully.';
             res.json({ message, data: newCrypto });
@@ -39,9 +41,9 @@ module.exports = (app) => {
         }
     });
 
-    app.put('/api/cryptocurrencies/:id', async (req, res) => {
+    app.put('/api/cryptocurrencies/:id', auth, async (req, res) => {
         try {
-            const { name, code, picture } = req.query;
+            const { name, code, picture, type } = req.query;
             const cryptocurrency = await CryptocurrencyRoutes.findByPk(req.params.id);
             if (cryptocurrency) {
                 cryptocurrency.name = name ?? cryptocurrency.name;
@@ -59,7 +61,7 @@ module.exports = (app) => {
         }
     });
 
-    app.delete('/api/cryptocurrencies/:id', async (req, res) => {
+    app.delete('/api/cryptocurrencies/:id', auth, async (req, res) => {
         try {
             const cryptocurrency = await CryptocurrencyRoutes.findByPk(req.params.id);
             if (cryptocurrency) {

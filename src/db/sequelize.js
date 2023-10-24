@@ -2,6 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize')
 const dbConfig = require("../config/config");
 const bcrypt = require('bcryptjs');
 const UserModel = require('../models/user');
+const CryptocurrencyModel = require('../models/cryptocurrency');
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
@@ -9,6 +10,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 });
 
 const User = UserModel(sequelize, DataTypes);
+const Cryptocurrency = CryptocurrencyModel(sequelize, DataTypes);
 
 const init = () => {
     return sequelize.sync({force: false})
@@ -22,9 +24,10 @@ const init = () => {
             //         }).then(user => console.log('User created.'))
             //     })
             //     .catch(error => console.log(error))
+            console.log('Database initialized.')
         })
 }
 
 module.exports = {
-    init, User
+    init, User, Cryptocurrency
 }
