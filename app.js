@@ -6,8 +6,8 @@ const port = 3000
 
 sequelize.init()
 
-require('./src/Routes/cryptocurrencyRoutes')(app)
-require('./src/Routes/login')(app)
+require('./src/routes/cryptocurrencyRoutes')(app)
+require('./src/routes/login')(app)
 
 app.use(({res}) => {
     const message = "Failed for finding requested ressource. Try another URL."

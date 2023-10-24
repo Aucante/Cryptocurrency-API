@@ -1,5 +1,5 @@
 const { Cryptocurrency: CryptocurrencyRoutes } = require('../db/sequelize');
-const errorHandler = require('../Handler/errorHandler');
+const errorHandler = require('../handler/errorHandler');
 const { Op } = require('sequelize');
 const cryptocurrencyController = require('../controllers/cryptocurrencyControllers');
 const auth = require('../auth/auth');
