@@ -2,6 +2,7 @@
 
 ## Launch app
 
+
 ```sh
 docker compose up
 ```
