@@ -17,7 +17,6 @@ module.exports = (req, res, next) => {
             const message = `This user is not allowed to access for this resource.`
             return res.status(401).json({ message, data: error })
         }
-        
         const userId = decodedToken.userId
 
         if (req.query.userId && req.query.userId !== userId) {
